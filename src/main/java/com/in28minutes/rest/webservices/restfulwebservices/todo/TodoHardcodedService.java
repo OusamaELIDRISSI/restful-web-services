@@ -19,9 +19,13 @@ public class TodoHardcodedService {
 	public List<Todo> findByUsername(String username) {
 		return repository.findByUsername(username);
 	}
-	
+
 	public Optional<Todo> getTodo(long id) {
 		return repository.findById(id);
+	}
+
+	public Todo saveOrUpdateTodo(Todo todo) {
+		return repository.save(todo);
 	}
 
 //	public Todo save(Todo todo) {
@@ -34,20 +38,19 @@ public class TodoHardcodedService {
 //		}
 //		return todo;
 //	}
-//
-//	public Todo deleteById(long id) {
-//		Todo todo = findById(id);
-//
-//		if (todo == null)
-//			return null;
-//
-//		if (todos.remove(todo)) {
-//			return todo;
-//		}
-//
-//		return null;
-//	}
-//
+
+	public Todo deleteById(long id) {
+		Todo todo = repository.getOne(id);
+
+		if (todo == null) {
+			return null;
+		}
+
+		repository.deleteById(id);
+
+		return todo;
+	}
+
 //	public Todo findById(long id) {
 //		for (Todo todo : todos) {
 //			if (todo.getId() == id) {
