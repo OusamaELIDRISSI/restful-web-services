@@ -1,4 +1,4 @@
-package com.in28minutes.rest.webservices.restfulwebservices.jwt;
+package com.in28minutes.rest.webservices.restfulwebservices.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +17,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.in28minutes.rest.webservices.restfulwebservices.jwt.JwtTokenAuthorizationOncePerRequestFilter;
+import com.in28minutes.rest.webservices.restfulwebservices.jwt.JwtUnAuthorizedResponseAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -60,6 +63,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
+            .antMatchers("/authenticate", "/register").permitAll()
             .anyRequest().authenticated();
 
        httpSecurity

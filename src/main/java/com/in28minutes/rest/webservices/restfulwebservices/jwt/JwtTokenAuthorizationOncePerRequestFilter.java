@@ -24,7 +24,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 @Component
 public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger loggerFactory = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserDetailsService jwtInMemoryUserDetailsService;
@@ -37,7 +37,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        logger.debug("Authentication Request For '{}'", request.getRequestURL());
+    	loggerFactory.debug("Authentication Request For '{}'", request.getRequestURL());
 
         final String requestTokenHeader = request.getHeader(this.tokenHeader);
 
@@ -48,20 +48,22 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                logger.error("JWT_TOKEN_UNABLE_TO_GET_USERNAME", e);
+            	loggerFactory.error("JWT_TOKEN_UNABLE_TO_GET_USERNAME", e);
             } catch (ExpiredJwtException e) {
-                logger.warn("JWT_TOKEN_EXPIRED", e);
+            	loggerFactory.warn("JWT_TOKEN_EXPIRED", e);
             }
         } else {
-            logger.warn("JWT_TOKEN_DOES_NOT_START_WITH_BEARER_STRING");
+        	loggerFactory.warn("JWT_TOKEN_DOES_NOT_START_WITH_BEARER_STRING");
         }
 
-        logger.debug("JWT_TOKEN_USERNAME_VALUE '{}'", username);
+        loggerFactory.debug("JWT_TOKEN_USERNAME_VALUE '{}'", username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.jwtInMemoryUserDetailsService.loadUserByUsername(username);
 
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+            Boolean isValid = jwtTokenUtil.validateToken(jwtToken, userDetails);
+
+            if (Boolean.TRUE.equals(isValid)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

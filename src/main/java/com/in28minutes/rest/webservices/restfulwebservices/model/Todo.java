@@ -1,4 +1,4 @@
-package com.in28minutes.rest.webservices.restfulwebservices.todo;
+package com.in28minutes.rest.webservices.restfulwebservices.model;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.in28minutes.rest.webservices.restfulwebservices.helloworld;
+package com.in28minutes.rest.webservices.restfulwebservices.model;
 
 public class HelloWorldBean {
 

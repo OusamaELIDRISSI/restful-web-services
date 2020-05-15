@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.in28minutes.rest.webservices.restfulwebservices.model.JwtUserDetails;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
@@ -22,7 +24,7 @@ public class JwtTokenUtil implements Serializable {
   static final String CLAIM_KEY_USERNAME = "sub";
   static final String CLAIM_KEY_CREATED = "iat";
   private static final long serialVersionUID = -3301605591108950415L;
-  private Clock clock = DefaultClock.INSTANCE;
+  private transient Clock clock = DefaultClock.INSTANCE;
 
   @Value("${jwt.signing.key.secret}")
   private String secret;
@@ -52,8 +54,8 @@ public class JwtTokenUtil implements Serializable {
   }
 
   private Boolean isTokenExpired(String token) {
-    final Date expiration = getExpirationDateFromToken(token);
-    return expiration.before(clock.now());
+    final Date expirationDate = getExpirationDateFromToken(token);
+    return expirationDate.before(clock.now());
   }
 
   private Boolean ignoreTokenExpiration(String token) {

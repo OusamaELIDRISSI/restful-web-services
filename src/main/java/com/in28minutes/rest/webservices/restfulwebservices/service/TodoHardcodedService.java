@@ -1,11 +1,13 @@
-package com.in28minutes.rest.webservices.restfulwebservices.todo;
+package com.in28minutes.rest.webservices.restfulwebservices.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.in28minutes.rest.webservices.restfulwebservices.dao.TodoJpaRepository;
+import com.in28minutes.rest.webservices.restfulwebservices.model.Todo;
 
 @Service
 public class TodoHardcodedService {
@@ -29,17 +31,6 @@ public class TodoHardcodedService {
 		return repository.save(todo);
 	}
 
-//	public Todo save(Todo todo) {
-//		if (todo.getId() == -1 || todo.getId() == 0) {
-//			todo.setId(++idCounter);
-//			todos.add(todo);
-//		} else {
-//			deleteById(todo.getId());
-//			todos.add(todo);
-//		}
-//		return todo;
-//	}
-
 	public Todo deleteById(long id) {
 		Todo todo = repository.getOne(id);
 
@@ -51,15 +42,5 @@ public class TodoHardcodedService {
 
 		return todo;
 	}
-
-//	public Todo findById(long id) {
-//		for (Todo todo : todos) {
-//			if (todo.getId() == id) {
-//				return todo;
-//			}
-//		}
-//
-//		return null;
-//	}
 
 }

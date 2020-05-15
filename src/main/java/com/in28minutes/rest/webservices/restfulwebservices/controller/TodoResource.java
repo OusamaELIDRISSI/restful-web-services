@@ -1,4 +1,4 @@
-package com.in28minutes.rest.webservices.restfulwebservices.todo;
+package com.in28minutes.rest.webservices.restfulwebservices.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.in28minutes.rest.webservices.restfulwebservices.model.Todo;
+import com.in28minutes.rest.webservices.restfulwebservices.service.TodoHardcodedService;
 
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
